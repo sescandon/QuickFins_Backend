@@ -32,7 +32,7 @@ export class App {
     routes(){
         this.app.use(IndexRoutes)
         this.app.use('/municipios',MunicipioRoutes)
-        this.app.use('/', PersonaRoutes)
+        this.app.use('/personas', PersonaRoutes)
         this.app.use('/viviendas', ViviendaRoutes)
         this.app.use('/posee', PoseeRoutes)
         this.app.use('/dependiente', DependienteRoutes)
