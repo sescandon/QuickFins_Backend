@@ -7,6 +7,7 @@ import MunicipioRoutes from './routes/municipio.routes'
 import PersonaRoutes from './routes/persona.routes'
 import ViviendaRoutes from './routes/vivienda.routes'
 import PoseeRoutes from './routes/posee.routes'
+import DependienteRoutes from "./routes/dependiente.routes";
 
 
 export class App {
@@ -34,6 +35,7 @@ export class App {
         this.app.use('/', PersonaRoutes)
         this.app.use('/viviendas', ViviendaRoutes)
         this.app.use('/posee', PoseeRoutes)
+        this.app.use('/dependiente', DependienteRoutes)
     }
 
     async listen(){
