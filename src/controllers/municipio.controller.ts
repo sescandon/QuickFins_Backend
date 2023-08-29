@@ -1,5 +1,4 @@
 import { Request, Response } from "express"
-
 import {connect} from '../database'
 import { Municipio } from "../interface/municipio.interface";
 
