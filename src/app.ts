@@ -4,6 +4,7 @@ import morgan from 'morgan'
 //Routes
 import IndexRoutes from './routes/index.routes'
 import MunicipioRoutes from './routes/municipio.routes'
+import PersonaRoutes from './routes/persona.routes'
 
 
 export class App {
@@ -28,6 +29,7 @@ export class App {
     routes(){
         this.app.use(IndexRoutes)
         this.app.use('/posts',MunicipioRoutes)
+        this.app.use('/', PersonaRoutes);
     }
 
     async listen(){
