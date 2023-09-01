@@ -41,7 +41,7 @@ export class App {
     }
 
     use() {
-        this.app.use(cors);
+        this.app.use(cors());
         this.app.use(express.json());
         console.log('Cors available!')
     }
