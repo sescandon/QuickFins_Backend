@@ -17,9 +17,9 @@ export class App {
     constructor(private port?: number | string) {
         this.app = express()
         this.settings()
+        this.useCors()
         this.middlewares()
         this.routes()
-        this.use()
     }
 
     settings() {
@@ -40,9 +40,10 @@ export class App {
         this.app.use('/dependiente', DependienteRoutes)
     }
 
-    use() {
-        this.app.use(cors());
-        this.app.use(express.json());
+    useCors() {
+        this.app.use(cors({
+            origin: '*',
+        }));
         console.log('Cors available!')
     }
 
