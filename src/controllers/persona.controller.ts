@@ -27,11 +27,27 @@ export async function getPersona(req: Request, res: Response): Promise<Response>
 export async function deletePersona(req: Request, res: Response) {
     const id = req.params.idPersona;
     const conn = await connect();
-    await conn.query('DELETE FROM Persona WHERE idPersona = ?', [id]);
-    return res.json({
-        message: 'Persona Deleted'
-    });
+    
+    try {
+        // Primero eliminar registros en tablas Dependiente, Habita y Posee que están relacionados con esta Persona
+        await conn.query('DELETE FROM Dependiente WHERE idPersona = ?', [id]);
+        await conn.query('DELETE FROM Habita WHERE idPersona = ?', [id]);
+        await conn.query('DELETE FROM Posee WHERE idPersona = ?', [id]);
+        
+        // Ahora puedes eliminar de la tabla Persona
+        await conn.query('DELETE FROM Persona WHERE idPersona = ?', [id]);
+        
+        return res.json({
+            message: 'Persona Deleted'
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error Deleting Persona',
+            error
+        });
+    }
 }
+
 
 export async function updatePersona(req: Request, res: Response) {
     const id = req.params.idPersona;
