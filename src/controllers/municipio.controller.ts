@@ -24,18 +24,23 @@ export async function getMunicipio(req: Request, res:Response): Promise<Response
     return res.json(municipio[0])
 }
 
-export async function deleteMunicipio(req: Request, res:Response) {
+export async function deleteMunicipio(req: Request, res: Response) {
     const id = req.params.idMunicipio;
     const conn = await connect();
 
     try {
-        // Primero eliminar registros en tablas Persona y Vivienda que están relacionados con este Municipio
+        // First delete records in ViviendaEnVenta that are related to the Persona rows you plan to delete
+        await conn.query('DELETE FROM ViviendaEnVenta WHERE idVivienda IN (SELECT idVivienda FROM Persona WHERE idMunicipio = ?)', [id]);
+        
+        // Then delete records in Persona that are related to this Municipio
         await conn.query('DELETE FROM Persona WHERE idMunicipio = ?', [id]);
+
+        // Then delete from Vivienda that are related to this Municipio
         await conn.query('DELETE FROM Vivienda WHERE idMunicipio = ?', [id]);
-
-        // Ahora puedes eliminar de la tabla Municipio
+        
+        // Finally, delete the Municipio
         await conn.query('DELETE FROM Municipio WHERE idMunicipio = ?', [id]);
-
+        
         return res.json({
             message:'MUNICIPIO DELETED'
         });
@@ -46,6 +51,10 @@ export async function deleteMunicipio(req: Request, res:Response) {
         });
     }
 }
+
+
+
+
 
 
 export async function updateMunicipio (req: Request, res:Response){
