@@ -29,16 +29,16 @@ export async function deleteMunicipio(req: Request, res: Response) {
     const conn = await connect();
 
     try {
-        // First delete records in ViviendaEnVenta that are related to the Persona rows you plan to delete
+        
         await conn.query('DELETE FROM ViviendaEnVenta WHERE idVivienda IN (SELECT idVivienda FROM Persona WHERE idMunicipio = ?)', [id]);
         
-        // Then delete records in Persona that are related to this Municipio
+        
         await conn.query('DELETE FROM Persona WHERE idMunicipio = ?', [id]);
 
-        // Then delete from Vivienda that are related to this Municipio
+        
         await conn.query('DELETE FROM Vivienda WHERE idMunicipio = ?', [id]);
         
-        // Finally, delete the Municipio
+        
         await conn.query('DELETE FROM Municipio WHERE idMunicipio = ?', [id]);
         
         return res.json({
@@ -51,9 +51,6 @@ export async function deleteMunicipio(req: Request, res: Response) {
         });
     }
 }
-
-
-
 
 
 
