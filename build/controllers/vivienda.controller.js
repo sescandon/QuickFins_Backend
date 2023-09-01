@@ -43,10 +43,22 @@ function deleteVivienda(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const id = req.params.idVivienda;
         const conn = yield (0, database_1.connect)();
-        yield conn.query('DELETE FROM Vivienda WHERE idVivienda = ?', [id]);
-        return res.json({
-            message: 'VIVIENDA DELETED'
-        });
+        try {
+            // Primero eliminar registros en tablas Habita y Posee que están relacionados con esta Vivienda
+            yield conn.query('DELETE FROM Habita WHERE idVivienda = ?', [id]);
+            yield conn.query('DELETE FROM Posee WHERE idVivienda = ?', [id]);
+            // Ahora puedes eliminar de la tabla Vivienda
+            yield conn.query('DELETE FROM Vivienda WHERE idVivienda = ?', [id]);
+            return res.json({
+                message: 'VIVIENDA DELETED'
+            });
+        }
+        catch (error) {
+            return res.status(500).json({
+                message: 'Error Deleting Vivienda',
+                error
+            });
+        }
     });
 }
 exports.deleteVivienda = deleteVivienda;

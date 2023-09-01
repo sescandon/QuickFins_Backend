@@ -43,10 +43,18 @@ function deletePosee(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const id = req.params.idPosee;
         const conn = yield (0, database_1.connect)();
-        yield conn.query('DELETE FROM Posee WHERE idPosee = ?', [id]);
-        return res.json({
-            message: 'Posee DELETED'
-        });
+        try {
+            yield conn.query('DELETE FROM Posee WHERE idPosee = ?', [id]);
+            return res.json({
+                message: 'Posee DELETED'
+            });
+        }
+        catch (error) {
+            return res.status(500).json({
+                message: 'Error Deleting Posee',
+                error
+            });
+        }
     });
 }
 exports.deletePosee = deletePosee;

@@ -43,10 +43,18 @@ function deleteDependiente(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const id = req.params.idDependiente;
         const conn = yield (0, database_1.connect)();
-        yield conn.query('DELETE FROM Dependiente WHERE idDependiente = ?', [id]);
-        return res.json({
-            message: 'Dependiente DELETED'
-        });
+        try {
+            yield conn.query('DELETE FROM Dependiente WHERE idDependiente = ?', [id]);
+            return res.json({
+                message: 'Dependiente DELETED'
+            });
+        }
+        catch (error) {
+            return res.status(500).json({
+                message: 'Error Deleting Dependiente',
+                error
+            });
+        }
     });
 }
 exports.deleteDependiente = deleteDependiente;

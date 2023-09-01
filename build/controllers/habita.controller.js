@@ -43,10 +43,18 @@ function deleteHabita(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const id = req.params.idHabita;
         const conn = yield (0, database_1.connect)();
-        yield conn.query('DELETE FROM Habita WHERE idHabita = ?', [id]);
-        return res.json({
-            message: 'Habita DELETED'
-        });
+        try {
+            yield conn.query('DELETE FROM Habita WHERE idHabita = ?', [id]);
+            return res.json({
+                message: 'Habita DELETED'
+            });
+        }
+        catch (error) {
+            return res.status(500).json({
+                message: 'Error Deleting Habita',
+                error
+            });
+        }
     });
 }
 exports.deleteHabita = deleteHabita;

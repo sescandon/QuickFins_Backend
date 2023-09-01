@@ -29,11 +29,12 @@ export async function deletePersona(req: Request, res: Response) {
     const conn = await connect();
     
     try {
-        // Primero eliminar registros en tablas Dependiente, Habita y Posee que están relacionados con esta Persona
+        // Primero eliminar registros en tablas Dependiente, Habita, Posee y ViviendaEnVenta que están relacionados con esta Persona
         await conn.query('DELETE FROM Dependiente WHERE idPersona = ?', [id]);
         await conn.query('DELETE FROM Habita WHERE idPersona = ?', [id]);
         await conn.query('DELETE FROM Posee WHERE idPersona = ?', [id]);
-        
+        await conn.query('DELETE FROM ViviendaEnVenta WHERE idVivienda = ?', [id]);  // Añadido
+
         // Ahora puedes eliminar de la tabla Persona
         await conn.query('DELETE FROM Persona WHERE idPersona = ?', [id]);
         
@@ -47,6 +48,7 @@ export async function deletePersona(req: Request, res: Response) {
         });
     }
 }
+
 
 
 export async function updatePersona(req: Request, res: Response) {

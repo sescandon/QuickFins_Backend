@@ -24,14 +24,23 @@ export async function getHabita(req: Request, res:Response): Promise<Response>{
     return res.json(Habita[0])
 }
 
-export async function deleteHabita(req: Request, res:Response) {
-    const id = req.params.idHabita
-    const conn = await connect()
-    await conn.query('DELETE FROM Habita WHERE idHabita = ?', [id])
-    return res.json({
-        message:'Habita DELETED'
-    })
+export async function deleteHabita(req: Request, res: Response) {
+    const id = req.params.idHabita;
+    const conn = await connect();
+
+    try {
+        await conn.query('DELETE FROM Habita WHERE idHabita = ?', [id]);
+        return res.json({
+            message: 'Habita DELETED'
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error Deleting Habita',
+            error
+        });
+    }
 }
+
 
 export async function updateHabita (req: Request, res:Response){
     const id = req.params.idHabita

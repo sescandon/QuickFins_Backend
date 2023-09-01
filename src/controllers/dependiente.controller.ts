@@ -24,14 +24,23 @@ export async function getDependiente(req: Request, res:Response): Promise<Respon
     return res.json(Dependiente[0])
 }
 
-export async function deleteDependiente(req: Request, res:Response) {
-    const id = req.params.idDependiente
-    const conn = await connect()
-    await conn.query('DELETE FROM Dependiente WHERE idDependiente = ?', [id])
-    return res.json({
-        message:'Dependiente DELETED'
-    })
+export async function deleteDependiente(req: Request, res: Response) {
+    const id = req.params.idDependiente;
+    const conn = await connect();
+
+    try {
+        await conn.query('DELETE FROM Dependiente WHERE idDependiente = ?', [id]);
+        return res.json({
+            message: 'Dependiente DELETED'
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error Deleting Dependiente',
+            error
+        });
+    }
 }
+
 
 export async function updateDependiente (req: Request, res:Response){
     const id = req.params.idDependiente

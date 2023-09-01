@@ -43,10 +43,27 @@ function deleteMunicipio(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const id = req.params.idMunicipio;
         const conn = yield (0, database_1.connect)();
-        yield conn.query('DELETE FROM Municipio WHERE idMunicipio = ?', [id]);
-        return res.json({
-            message: 'POST DELETED'
-        });
+        try {
+            // Delete records from ViviendaEnVenta related to this Municipio
+            yield conn.query('DELETE FROM ViviendaEnVenta WHERE idVivienda IN (SELECT idVivienda FROM Vivienda WHERE idMunicipio = ?)', [id]);
+            // Delete other related records
+            yield conn.query('DELETE FROM Posee WHERE idPersona IN (SELECT idPersona FROM Persona WHERE idMunicipio = ?)', [id]);
+            yield conn.query('DELETE FROM Habita WHERE idPersona IN (SELECT idPersona FROM Persona WHERE idMunicipio = ?)', [id]);
+            yield conn.query('DELETE FROM Dependiente WHERE idPersona IN (SELECT idPersona FROM Persona WHERE idMunicipio = ?)', [id]);
+            yield conn.query('DELETE FROM Vivienda WHERE idMunicipio = ?', [id]);
+            yield conn.query('DELETE FROM Persona WHERE idMunicipio = ?', [id]);
+            // Finally, delete from Municipio table itself
+            yield conn.query('DELETE FROM Municipio WHERE idMunicipio = ?', [id]);
+            return res.json({
+                message: 'MUNICIPIO DELETED'
+            });
+        }
+        catch (error) {
+            return res.status(500).json({
+                message: 'Error Deleting Municipio',
+                error
+            });
+        }
     });
 }
 exports.deleteMunicipio = deleteMunicipio;

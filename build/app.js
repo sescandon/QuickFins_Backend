@@ -28,9 +28,9 @@ class App {
         this.port = port;
         this.app = (0, express_1.default)();
         this.settings();
+        this.useCors();
         this.middlewares();
         this.routes();
-        this.use();
     }
     settings() {
         this.app.set('port', this.port || process.env.PORT || 3000);
@@ -47,9 +47,10 @@ class App {
         this.app.use('/posee', posee_routes_1.default);
         this.app.use('/dependiente', dependiente_routes_1.default);
     }
-    use() {
-        this.app.use((0, cors_1.default)());
-        this.app.use(express_1.default.json());
+    useCors() {
+        this.app.use((0, cors_1.default)({
+            origin: '*',
+        }));
         console.log('Cors available!');
     }
     listen() {

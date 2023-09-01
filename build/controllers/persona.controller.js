@@ -43,10 +43,24 @@ function deletePersona(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const id = req.params.idPersona;
         const conn = yield (0, database_1.connect)();
-        yield conn.query('DELETE FROM Persona WHERE idPersona = ?', [id]);
-        return res.json({
-            message: 'Persona Deleted'
-        });
+        try {
+            // Primero eliminar registros en tablas Dependiente, Habita, Posee y ViviendaEnVenta que están relacionados con esta Persona
+            yield conn.query('DELETE FROM Dependiente WHERE idPersona = ?', [id]);
+            yield conn.query('DELETE FROM Habita WHERE idPersona = ?', [id]);
+            yield conn.query('DELETE FROM Posee WHERE idPersona = ?', [id]);
+            yield conn.query('DELETE FROM ViviendaEnVenta WHERE idVivienda = ?', [id]); // Añadido
+            // Ahora puedes eliminar de la tabla Persona
+            yield conn.query('DELETE FROM Persona WHERE idPersona = ?', [id]);
+            return res.json({
+                message: 'Persona Deleted'
+            });
+        }
+        catch (error) {
+            return res.status(500).json({
+                message: 'Error Deleting Persona',
+                error
+            });
+        }
     });
 }
 exports.deletePersona = deletePersona;
