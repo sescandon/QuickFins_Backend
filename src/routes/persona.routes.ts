@@ -3,11 +3,13 @@ import { getPersonas, createPersona, getPersona, deletePersona, updatePersona } 
 
 const router = Router()
 
+router.route('/')
+    .get(getPersonas)
+    .post(createPersona)
 
-router.get("/personas", getPersonas);
-router.post("/personas", createPersona);
-router.get("/personas/:idPersona", getPersona);
-router.delete("/personas/:idPersona", deletePersona);
-router.put("/personas/:idPersona", updatePersona);
+router.route('/:idPersona')
+    .get(getPersona)
+    .delete(deletePersona)
+    .put(updatePersona)
 
 export default router;

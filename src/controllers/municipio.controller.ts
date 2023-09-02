@@ -24,14 +24,35 @@ export async function getMunicipio(req: Request, res:Response): Promise<Response
     return res.json(municipio[0])
 }
 
-export async function deleteMunicipio(req: Request, res:Response) {
-    const id = req.params.idMunicipio
-    const conn = await connect()
-    await conn.query('DELETE FROM Municipio WHERE idMunicipio = ?', [id])
-    return res.json({
-        message:'POST DELETED'
-    })
+export async function deleteMunicipio(req: Request, res: Response) {
+    const id = req.params.idMunicipio;
+    const conn = await connect();
+
+    try {
+        
+        await conn.query('DELETE FROM ViviendaEnVenta WHERE idVivienda IN (SELECT idVivienda FROM Persona WHERE idMunicipio = ?)', [id]);
+        
+        
+        await conn.query('DELETE FROM Persona WHERE idMunicipio = ?', [id]);
+
+        
+        await conn.query('DELETE FROM Vivienda WHERE idMunicipio = ?', [id]);
+        
+        
+        await conn.query('DELETE FROM Municipio WHERE idMunicipio = ?', [id]);
+        
+        return res.json({
+            message:'MUNICIPIO DELETED'
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error Deleting Municipio',
+            error
+        });
+    }
 }
+
+
 
 export async function updateMunicipio (req: Request, res:Response){
     const id = req.params.idMunicipio

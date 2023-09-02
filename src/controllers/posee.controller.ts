@@ -24,14 +24,23 @@ export async function getPosee(req: Request, res:Response): Promise<Response>{
     return res.json(Posee[0])
 }
 
-export async function deletePosee(req: Request, res:Response) {
-    const id = req.params.idPosee
-    const conn = await connect()
-    await conn.query('DELETE FROM Posee WHERE idPosee = ?', [id])
-    return res.json({
-        message:'Posee DELETED'
-    })
+export async function deletePosee(req: Request, res: Response) {
+    const id = req.params.idPosee;
+    const conn = await connect();
+
+    try {
+        await conn.query('DELETE FROM Posee WHERE idPosee = ?', [id]);
+        return res.json({
+            message: 'Posee DELETED'
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Error Deleting Posee',
+            error
+        });
+    }
 }
+
 
 export async function updatePosee (req: Request, res:Response){
     const id = req.params.idPosee
