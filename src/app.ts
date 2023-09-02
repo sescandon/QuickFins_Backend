@@ -10,6 +10,7 @@ import ViviendaRoutes from './routes/vivienda.routes'
 import PoseeRoutes from './routes/posee.routes'
 import DependienteRoutes from "./routes/dependiente.routes";
 import ViviendaEnVentaRoutes from "./routes/viviendaEnVenta.routes";
+import GobiernaRoutes from './routes/gobierna.routes'
 
 
 export class App {
@@ -40,6 +41,7 @@ export class App {
         this.app.use('/posee', PoseeRoutes)
         this.app.use('/dependiente', DependienteRoutes)
         this.app.use('/viviendaEnVenta', ViviendaEnVentaRoutes)
+        this.app.use('/gobierna', GobiernaRoutes)
     }
 
     useCors() {
