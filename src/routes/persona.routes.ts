@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { getPersonas, createPersona, getPersona, deletePersona, updatePersona } from "../controllers/persona.controller";
+import { getPersonas, createPersona, getPersona, deletePersona, updatePersona, getPersonaDetails } from "../controllers/persona.controller";
 
 const router = Router()
 
@@ -8,8 +8,8 @@ router.route('/')
     .post(createPersona)
 
 router.route('/:idPersona')
-    .get(getPersona)
     .delete(deletePersona)
     .put(updatePersona)
+    .get(getPersonaDetails)
 
 export default router;
