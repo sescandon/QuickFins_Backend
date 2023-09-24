@@ -4,32 +4,32 @@ import { Dependiente } from "../interface/dependiente.interface"
 
 export async function getDependientes(req: Request, res: Response): Promise<Response> {
     const conn = await connect()
-    const dependientes = await conn.query('SELECT * FROM Dependiente')
+    const dependientes = await conn.query('SELECT * FROM dependiente')
     return res.json(dependientes[0])
 }
 
 export async function createDependiente(req: Request, res: Response) {
     const newPost: Dependiente = req.body
     const conn = await connect()
-    conn.query('INSERT INTO Dependiente SET?',[newPost])
+    conn.query('INSERT INTO dependiente SET?',[newPost])
     return res.json({
         message:'Dependiente CREATED'
     })
 }
 
 export async function getDependiente(req: Request, res:Response): Promise<Response>{
-    const id = req.params.idDependiente
+    const id = req.params.dependiente_id_cedula
     const conn = await connect()
-    const Dependiente = await conn.query('SELECT * FROM Dependiente WHERE idDependiente = ?', [id])
+    const Dependiente = await conn.query('SELECT * FROM dependiente WHERE dependiente_id_cedula = ?', [id])
     return res.json(Dependiente[0])
 }
 
 export async function deleteDependiente(req: Request, res: Response) {
-    const id = req.params.idDependiente;
+    const id = req.params.dependiente_id_cedula;
     const conn = await connect();
 
     try {
-        await conn.query('DELETE FROM Dependiente WHERE idDependiente = ?', [id]);
+        await conn.query('DELETE FROM dependiente WHERE dependiente_id_cedula = ?', [id]);
         return res.json({
             message: 'Dependiente DELETED'
         });
@@ -43,10 +43,10 @@ export async function deleteDependiente(req: Request, res: Response) {
 
 
 export async function updateDependiente (req: Request, res:Response){
-    const id = req.params.idDependiente
+    const id = req.params.dependiente_id_cedula
     const updateDependiente: Dependiente = req.body;
     const conn = await connect()
-    await conn.query('UPDATE Dependiente set ? WHERE idDependiente = ?', [updateDependiente, id])
+    await conn.query('UPDATE dependiente set ? WHERE dependiente_id_cedula = ?', [updateDependiente, id])
     return res.json({
         message:'Dependiente UPDATED'
     })

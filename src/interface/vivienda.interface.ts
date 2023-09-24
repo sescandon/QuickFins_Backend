@@ -1,5 +1,5 @@
 export interface Vivienda {
-    idVivienda: number;
+    id_vivienda: number;
     direccion: string;
     capacidad: number;
     niveles: number;

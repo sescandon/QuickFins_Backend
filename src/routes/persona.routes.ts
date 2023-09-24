@@ -7,7 +7,7 @@ router.route('/')
     .get(getPersonas)
     .post(createPersona)
 
-router.route('/:idPersona')
+router.route('/:id_persona')
     .delete(deletePersona)
     .put(updatePersona)
     .get(getPersonaDetails)

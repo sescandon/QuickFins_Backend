@@ -2,14 +2,14 @@ import { Router } from "express"
 
 const router = Router()
 
-import { getViviendas, createVivienda, getVivienda, deleteVivienda, updateVivienda } from "../controllers/vivienda.controller"
+import { getViviendas, createVivienda, getVivienda, deleteVivienda, updateVivienda,getViviendaDetails } from "../controllers/vivienda.controller"
 
 router.route('/')
     .get(getViviendas)
     .post(createVivienda)
 
-router.route('/:idVivienda')
-    .get(getVivienda)
+router.route('/:id_vivienda')
+    .get(getViviendaDetails)
     .delete(deleteVivienda)
     .put(updateVivienda)
 

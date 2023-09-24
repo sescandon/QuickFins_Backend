@@ -4,14 +4,14 @@ import { Vivienda } from "../interface/vivienda.interface"
 
 export async function getViviendas(req: Request, res: Response): Promise<Response> {
     const conn = await connect()
-    const viviendas = await conn.query('SELECT * FROM Vivienda')
+    const viviendas = await conn.query('SELECT * FROM vivienda')
     return res.json(viviendas[0])
 }
 
 export async function createVivienda(req: Request, res: Response) {
     const newPost: Vivienda = req.body
     const conn = await connect()
-    conn.query('INSERT INTO Vivienda SET?',[newPost])
+    conn.query('INSERT INTO vivienda SET?',[newPost])
     return res.json({
         message:'VIVIENDA CREATED'
     })
@@ -20,7 +20,7 @@ export async function createVivienda(req: Request, res: Response) {
 export async function getVivienda(req: Request, res:Response): Promise<Response>{
     const id = req.params.idVivienda
     const conn = await connect()
-    const Vivienda = await conn.query('SELECT * FROM Vivienda WHERE idVivienda = ?', [id])
+    const Vivienda = await conn.query('SELECT * FROM Vivienda WHERE id_vivienda = ?', [id])
     return res.json(Vivienda[0])
 }
 
@@ -30,11 +30,11 @@ export async function deleteVivienda(req: Request, res:Response) {
 
     try {
         // Primero eliminar registros en tablas Habita y Posee que están relacionados con esta Vivienda
-        await conn.query('DELETE FROM Habita WHERE idVivienda = ?', [id]);
-        await conn.query('DELETE FROM Posee WHERE idVivienda = ?', [id]);
+        await conn.query('DELETE FROM habita WHERE id_vivienda = ?', [id]);
+        await conn.query('DELETE FROM posee WHERE id_vivienda = ?', [id]);
 
         // Ahora puedes eliminar de la tabla Vivienda
-        await conn.query('DELETE FROM Vivienda WHERE idVivienda = ?', [id]);
+        await conn.query('DELETE FROM vivienda WHERE idvivienda = ?', [id]);
 
         return res.json({
             message:'VIVIENDA DELETED'
@@ -58,3 +58,34 @@ export async function updateVivienda (req: Request, res:Response){
         message:'VIVIENDA UPDATED'
     })
 }
+
+
+export async function getViviendaDetails(req: Request, res: Response): Promise<Response> {
+    const id = req.params.id_vivienda;  
+    const conn = await connect();
+    const query = `
+    SELECT 
+        v.id_vivienda,
+        v.estrato,
+        m.nombre AS 'municipio',
+        m.id_municipio,
+        (SELECT p.nombre FROM persona p INNER JOIN posee po ON p.id_cedula = po.persona_id_cedula WHERE po.vivienda_id_vivienda = v.id_vivienda) AS 'nombre_propietario',
+        (SELECT p.id_cedula FROM persona p INNER JOIN posee po ON p.id_cedula = po.persona_id_cedula WHERE po.vivienda_id_vivienda = v.id_vivienda) AS 'id_propietario',
+        m.id_municipio AS 'id_municipio_propietario',
+        v.area AS 'area_vivienda',
+        v.capacidad,
+        v.niveles,
+        v.baños,
+        (SELECT GROUP_CONCAT(h.persona_id_cedula) FROM habita h WHERE h.vivienda_id_vivienda = v.id_vivienda) AS 'id_residentes',
+        (SELECT GROUP_CONCAT(pr.nombre) FROM habita h INNER JOIN persona pr ON h.persona_id_cedula = pr.id_cedula WHERE h.vivienda_id_vivienda = v.id_vivienda) AS 'nombres_residentes',
+        (SELECT GROUP_CONCAT(pr.telefono) FROM habita h INNER JOIN persona pr ON h.persona_id_cedula = pr.id_cedula WHERE h.vivienda_id_vivienda = v.id_vivienda) AS 'telefonos_residentes'
+    FROM vivienda v
+    INNER JOIN municipio m ON v.municipio_id_municipio = m.id_municipio
+    WHERE v.id_vivienda = ?  -- Reemplaza el signo de interrogación con el ID de la vivienda que estás buscando
+    `;
+    const viviendaDetails = await conn.query(query, [id]);
+    return res.json(viviendaDetails[0]);
+}
+
+
+

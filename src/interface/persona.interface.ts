@@ -1,10 +1,10 @@
 export interface Persona {
-    idPersona: number;
+    id_persona: number;
     nombre: string;
     edad: number;
     telefono: number;
     sexo: string;
     fechaDeNacimiento: Date;
-    idMunicipio: number;
+    id_municipio: number;
   }
   
