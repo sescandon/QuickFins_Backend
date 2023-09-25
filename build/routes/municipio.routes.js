@@ -6,8 +6,8 @@ const municipio_controller_1 = require("../controllers/municipio.controller");
 router.route('/')
     .get(municipio_controller_1.getMunicipios)
     .post(municipio_controller_1.createMunicipio);
-router.route('/:idMunicipio')
-    .get(municipio_controller_1.getMunicipio)
+router.route('/:id_municipio')
+    .get(municipio_controller_1.getMunicipioDetails)
     .delete(municipio_controller_1.deleteMunicipio)
     .put(municipio_controller_1.updateMunicipio);
 exports.default = router;

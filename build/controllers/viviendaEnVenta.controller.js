@@ -14,7 +14,7 @@ const database_1 = require("../database");
 function getViviendasEnVenta(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const conn = yield (0, database_1.connect)();
-        const viviendasEnVenta = yield conn.query('SELECT * FROM ViviendaEnVenta');
+        const viviendasEnVenta = yield conn.query('SELECT * FROM vivienda_en_venta');
         return res.json(viviendasEnVenta[0]);
     });
 }
@@ -23,7 +23,7 @@ function createViviendaEnVenta(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const newViviendaEnVenta = req.body;
         const conn = yield (0, database_1.connect)();
-        yield conn.query('INSERT INTO ViviendaEnVenta SET ?', [newViviendaEnVenta]);
+        yield conn.query('INSERT INTO vivienda_en_venta SET ?', [newViviendaEnVenta]);
         return res.json({
             message: 'ViviendaEnVenta Created'
         });
@@ -32,18 +32,18 @@ function createViviendaEnVenta(req, res) {
 exports.createViviendaEnVenta = createViviendaEnVenta;
 function getViviendaEnVenta(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.idVenta;
+        const id = req.params.id_venta;
         const conn = yield (0, database_1.connect)();
-        const viviendaEnVenta = yield conn.query('SELECT * FROM ViviendaEnVenta WHERE idVenta = ?', [id]);
+        const viviendaEnVenta = yield conn.query('SELECT * FROM vivienda_en_venta WHERE id_venta = ?', [id]);
         return res.json(viviendaEnVenta[0]);
     });
 }
 exports.getViviendaEnVenta = getViviendaEnVenta;
 function deleteViviendaEnVenta(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.idVenta;
+        const id = req.params.id_venta;
         const conn = yield (0, database_1.connect)();
-        yield conn.query('DELETE FROM ViviendaEnVenta WHERE idVenta = ?', [id]);
+        yield conn.query('DELETE FROM vivienda_en_venta WHERE id_venta = ?', [id]);
         return res.json({
             message: 'ViviendaEnVenta Deleted'
         });
@@ -52,10 +52,10 @@ function deleteViviendaEnVenta(req, res) {
 exports.deleteViviendaEnVenta = deleteViviendaEnVenta;
 function updateViviendaEnVenta(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.idVenta;
+        const id = req.params.id_venta;
         const updatedViviendaEnVenta = req.body;
         const conn = yield (0, database_1.connect)();
-        yield conn.query('UPDATE ViviendaEnVenta SET ? WHERE idVenta = ?', [updatedViviendaEnVenta, id]);
+        yield conn.query('UPDATE vivienda_en_venta SET ? WHERE id_venta = ?', [updatedViviendaEnVenta, id]);
         return res.json({
             message: 'ViviendaEnVenta Updated'
         });

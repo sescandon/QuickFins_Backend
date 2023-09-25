@@ -9,12 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateMunicipio = exports.deleteMunicipio = exports.getMunicipio = exports.createMunicipio = exports.getMunicipios = void 0;
+exports.getMunicipioDetails = exports.updateMunicipio = exports.deleteMunicipio = exports.getMunicipio = exports.createMunicipio = exports.getMunicipios = void 0;
 const database_1 = require("../database");
 function getMunicipios(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const conn = yield (0, database_1.connect)();
-        const posts = yield conn.query('SELECT * FROM Municipio');
+        const posts = yield conn.query('SELECT * FROM municipio');
         return res.json(posts[0]);
     });
 }
@@ -23,7 +23,7 @@ function createMunicipio(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const newPost = req.body;
         const conn = yield (0, database_1.connect)();
-        conn.query('INSERT INTO Municipio SET?', [newPost]);
+        conn.query('INSERT INTO municipio SET?', [newPost]);
         return res.json({
             message: 'POST CREATED'
         });
@@ -32,29 +32,29 @@ function createMunicipio(req, res) {
 exports.createMunicipio = createMunicipio;
 function getMunicipio(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.idMunicipio;
+        const id = req.params.id_municipio;
         const conn = yield (0, database_1.connect)();
-        const municipio = yield conn.query('SELECT * FROM Municipio WHERE idMunicipio = ?', [id]);
+        const municipio = yield conn.query('SELECT * FROM municipio WHERE id_municipio = ?', [id]);
         return res.json(municipio[0]);
     });
 }
 exports.getMunicipio = getMunicipio;
 function deleteMunicipio(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.idMunicipio;
+        const id = req.params.id_municipio;
         const conn = yield (0, database_1.connect)();
         try {
-            yield conn.query('DELETE FROM ViviendaEnVenta WHERE idVivienda IN (SELECT idVivienda FROM Persona WHERE idMunicipio = ?)', [id]);
-            yield conn.query('DELETE FROM Persona WHERE idMunicipio = ?', [id]);
-            yield conn.query('DELETE FROM Vivienda WHERE idMunicipio = ?', [id]);
-            yield conn.query('DELETE FROM Municipio WHERE idMunicipio = ?', [id]);
+            yield conn.query('DELETE FROM ViviendaEnVenta WHERE idVivienda IN (SELECT idVivienda FROM Persona WHERE id_municipio = ?)', [id]);
+            yield conn.query('DELETE FROM Persona WHERE id_municipio = ?', [id]);
+            yield conn.query('DELETE FROM Vivienda WHERE id_municipio = ?', [id]);
+            yield conn.query('DELETE FROM municipio WHERE id_municipio = ?', [id]);
             return res.json({
-                message: 'MUNICIPIO DELETED'
+                message: 'municipio DELETED'
             });
         }
         catch (error) {
             return res.status(500).json({
-                message: 'Error Deleting Municipio',
+                message: 'Error Deleting municipio',
                 error
             });
         }
@@ -63,13 +63,39 @@ function deleteMunicipio(req, res) {
 exports.deleteMunicipio = deleteMunicipio;
 function updateMunicipio(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.idMunicipio;
-        const updateMunicipio = req.body;
+        const id = req.params.id_municipio;
+        const updatemunicipio = req.body;
         const conn = yield (0, database_1.connect)();
-        yield conn.query('UPDATE Municipio set ? WHERE idMunicipio = ?', [updateMunicipio, id]);
+        yield conn.query('UPDATE municipio set ? WHERE id_municipio = ?', [updatemunicipio, id]);
         return res.json({
             message: 'POST UPDATED'
         });
     });
 }
 exports.updateMunicipio = updateMunicipio;
+function getMunicipioDetails(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const id = req.params.id_municipio; // 
+        const conn = yield (0, database_1.connect)();
+        const query = `
+    SELECT 
+        m.id_municipio,
+        m.area,
+        m.presupuesto,
+        (SELECT persona_id_cedula FROM gobierna WHERE departamento_id_departamento = m.departamento_id_departamento LIMIT 1) AS 'id_gobernante',
+        (SELECT nombre FROM persona WHERE id_cedula = (SELECT persona_id_cedula FROM gobierna WHERE departamento_id_departamento = m.departamento_id_departamento LIMIT 1)) AS 'nombre_gobernante',
+        (SELECT telefono FROM persona WHERE id_cedula = (SELECT persona_id_cedula FROM gobierna WHERE departamento_id_departamento = m.departamento_id_departamento LIMIT 1)) AS 'telefono',
+        (SELECT GROUP_CONCAT(id_vivienda) FROM vivienda WHERE municipio_id_municipio = m.id_municipio) AS 'ids_vivienda',
+        (SELECT GROUP_CONCAT(direccion) FROM vivienda WHERE municipio_id_municipio = m.id_municipio) AS 'direcciones',
+        (SELECT GROUP_CONCAT(area) FROM vivienda WHERE municipio_id_municipio = m.id_municipio) AS 'areas_vivienda',
+        (SELECT GROUP_CONCAT(persona_id_cedula) FROM habita WHERE vivienda_id_vivienda IN (SELECT id_vivienda FROM vivienda WHERE municipio_id_municipio = m.id_municipio)) AS 'id_habitantes',
+        (SELECT GROUP_CONCAT(nombre) FROM persona WHERE id_cedula IN (SELECT persona_id_cedula FROM habita WHERE vivienda_id_vivienda IN (SELECT id_vivienda FROM vivienda WHERE municipio_id_municipio = m.id_municipio))) AS 'nombres_habitantes',
+        (SELECT GROUP_CONCAT(telefono) FROM persona WHERE id_cedula IN (SELECT persona_id_cedula FROM habita WHERE vivienda_id_vivienda IN (SELECT id_vivienda FROM vivienda WHERE municipio_id_municipio = m.id_municipio))) AS 'telefonos_habitantes'
+    FROM municipio m
+    WHERE m.id_municipio = ?;
+    `;
+        const municipioDetails = yield conn.query(query, [id]);
+        return res.json(municipioDetails[0]);
+    });
+}
+exports.getMunicipioDetails = getMunicipioDetails;

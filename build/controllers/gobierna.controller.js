@@ -14,7 +14,7 @@ const database_1 = require("../database");
 function getGobiernas(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const conn = yield (0, database_1.connect)();
-        const gobiernas = yield conn.query('SELECT * FROM Gobierna');
+        const gobiernas = yield conn.query('SELECT * FROM gobierna');
         return res.json(gobiernas[0]);
     });
 }
@@ -23,7 +23,7 @@ function createGobierna(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const newGobierna = req.body;
         const conn = yield (0, database_1.connect)();
-        yield conn.query('INSERT INTO Gobierna SET ?', [newGobierna]);
+        yield conn.query('INSERT INTO gobierna SET ?', [newGobierna]);
         return res.json({
             message: 'Gobierna CREATED'
         });
@@ -32,18 +32,18 @@ function createGobierna(req, res) {
 exports.createGobierna = createGobierna;
 function getGobierna(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.Persona_idPersona;
+        const id = req.params.persona_id_cedula;
         const conn = yield (0, database_1.connect)();
-        const gobierna = yield conn.query('SELECT * FROM Gobierna WHERE Persona_idPersona = ?', [id]);
+        const gobierna = yield conn.query('SELECT * FROM gobierna WHERE persona_id_cedula = ?', [id]);
         return res.json(gobierna[0]);
     });
 }
 exports.getGobierna = getGobierna;
 function deleteGobierna(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.Persona_idPersona;
+        const id = req.params.persona_id_cedula;
         const conn = yield (0, database_1.connect)();
-        yield conn.query('DELETE FROM Gobierna WHERE Persona_idPersona = ?', [id]);
+        yield conn.query('DELETE FROM gobierna WHERE persona_id_cedula = ?', [id]);
         return res.json({
             message: 'Gobierna DELETED'
         });
@@ -52,10 +52,10 @@ function deleteGobierna(req, res) {
 exports.deleteGobierna = deleteGobierna;
 function updateGobierna(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.Persona_idPersona;
+        const id = req.params.persona_id_cedula;
         const updatedGobierna = req.body;
         const conn = yield (0, database_1.connect)();
-        yield conn.query('UPDATE Gobierna SET ? WHERE Persona_idPersona = ?', [updatedGobierna, id]);
+        yield conn.query('UPDATE gobierna SET ? WHERE persona_id_cedula = ?', [updatedGobierna, id]);
         return res.json({
             message: 'Gobierna UPDATED'
         });

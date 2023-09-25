@@ -14,7 +14,7 @@ const database_1 = require("../database");
 function getPosees(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const conn = yield (0, database_1.connect)();
-        const posees = yield conn.query('SELECT * FROM Posee');
+        const posees = yield conn.query('SELECT * FROM posee');
         return res.json(posees[0]);
     });
 }
@@ -23,7 +23,7 @@ function createPosee(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const newPost = req.body;
         const conn = yield (0, database_1.connect)();
-        conn.query('INSERT INTO Posee SET?', [newPost]);
+        conn.query('INSERT INTO posee SET?', [newPost]);
         return res.json({
             message: 'Posee CREATED'
         });
@@ -34,7 +34,7 @@ function getPosee(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const id = req.params.idPosee;
         const conn = yield (0, database_1.connect)();
-        const Posee = yield conn.query('SELECT * FROM Posee WHERE idPosee = ?', [id]);
+        const Posee = yield conn.query('SELECT * FROM posee WHERE persona_id_cedula = ?', [id]);
         return res.json(Posee[0]);
     });
 }
@@ -44,7 +44,7 @@ function deletePosee(req, res) {
         const id = req.params.idPosee;
         const conn = yield (0, database_1.connect)();
         try {
-            yield conn.query('DELETE FROM Posee WHERE idPosee = ?', [id]);
+            yield conn.query('DELETE FROM posee WHERE persona_id_cedula = ?', [id]);
             return res.json({
                 message: 'Posee DELETED'
             });
@@ -63,7 +63,7 @@ function updatePosee(req, res) {
         const id = req.params.idPosee;
         const updatePosee = req.body;
         const conn = yield (0, database_1.connect)();
-        yield conn.query('UPDATE Posee set ? WHERE idPosee = ?', [updatePosee, id]);
+        yield conn.query('UPDATE posee set ? WHERE persona_id_cedula = ?', [updatePosee, id]);
         return res.json({
             message: 'Posee UPDATED'
         });

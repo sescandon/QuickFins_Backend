@@ -25,6 +25,7 @@ const posee_routes_1 = __importDefault(require("./routes/posee.routes"));
 const dependiente_routes_1 = __importDefault(require("./routes/dependiente.routes"));
 const viviendaEnVenta_routes_1 = __importDefault(require("./routes/viviendaEnVenta.routes"));
 const gobierna_routes_1 = __importDefault(require("./routes/gobierna.routes"));
+const habita_routes_1 = __importDefault(require("./routes/habita.routes"));
 class App {
     constructor(port) {
         this.port = port;
@@ -50,6 +51,7 @@ class App {
         this.app.use('/dependiente', dependiente_routes_1.default);
         this.app.use('/viviendaEnVenta', viviendaEnVenta_routes_1.default);
         this.app.use('/gobierna', gobierna_routes_1.default);
+        this.app.use('/habita', habita_routes_1.default);
     }
     useCors() {
         this.app.use((0, cors_1.default)({

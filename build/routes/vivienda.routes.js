@@ -6,8 +6,8 @@ const vivienda_controller_1 = require("../controllers/vivienda.controller");
 router.route('/')
     .get(vivienda_controller_1.getViviendas)
     .post(vivienda_controller_1.createVivienda);
-router.route('/:idVivienda')
-    .get(vivienda_controller_1.getVivienda)
+router.route('/:id_vivienda')
+    .get(vivienda_controller_1.getViviendaDetails)
     .delete(vivienda_controller_1.deleteVivienda)
     .put(vivienda_controller_1.updateVivienda);
 exports.default = router;

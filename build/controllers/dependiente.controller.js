@@ -14,7 +14,7 @@ const database_1 = require("../database");
 function getDependientes(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const conn = yield (0, database_1.connect)();
-        const dependientes = yield conn.query('SELECT * FROM Dependiente');
+        const dependientes = yield conn.query('SELECT * FROM dependiente');
         return res.json(dependientes[0]);
     });
 }
@@ -23,7 +23,7 @@ function createDependiente(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const newPost = req.body;
         const conn = yield (0, database_1.connect)();
-        conn.query('INSERT INTO Dependiente SET?', [newPost]);
+        conn.query('INSERT INTO dependiente SET?', [newPost]);
         return res.json({
             message: 'Dependiente CREATED'
         });
@@ -32,19 +32,19 @@ function createDependiente(req, res) {
 exports.createDependiente = createDependiente;
 function getDependiente(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.idDependiente;
+        const id = req.params.dependiente_id_cedula;
         const conn = yield (0, database_1.connect)();
-        const Dependiente = yield conn.query('SELECT * FROM Dependiente WHERE idDependiente = ?', [id]);
+        const Dependiente = yield conn.query('SELECT * FROM dependiente WHERE dependiente_id_cedula = ?', [id]);
         return res.json(Dependiente[0]);
     });
 }
 exports.getDependiente = getDependiente;
 function deleteDependiente(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.idDependiente;
+        const id = req.params.dependiente_id_cedula;
         const conn = yield (0, database_1.connect)();
         try {
-            yield conn.query('DELETE FROM Dependiente WHERE idDependiente = ?', [id]);
+            yield conn.query('DELETE FROM dependiente WHERE dependiente_id_cedula = ?', [id]);
             return res.json({
                 message: 'Dependiente DELETED'
             });
@@ -60,10 +60,10 @@ function deleteDependiente(req, res) {
 exports.deleteDependiente = deleteDependiente;
 function updateDependiente(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.idDependiente;
+        const id = req.params.dependiente_id_cedula;
         const updateDependiente = req.body;
         const conn = yield (0, database_1.connect)();
-        yield conn.query('UPDATE Dependiente set ? WHERE idDependiente = ?', [updateDependiente, id]);
+        yield conn.query('UPDATE dependiente set ? WHERE dependiente_id_cedula = ?', [updateDependiente, id]);
         return res.json({
             message: 'Dependiente UPDATED'
         });
