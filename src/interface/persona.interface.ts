@@ -3,5 +3,5 @@ export interface Persona {
   nombre?: string; 
   telefono?: number;
   sexo?: 'Femenino' | 'Masculino';
-  fechaDeNacimiento?: string;
+  fecha_de_nacimiento?: string;
 }
