@@ -48,7 +48,7 @@ function deleteVivienda(req, res) {
             yield conn.query('DELETE FROM habita WHERE id_vivienda = ?', [id]);
             yield conn.query('DELETE FROM posee WHERE id_vivienda = ?', [id]);
             // Ahora puedes eliminar de la tabla Vivienda
-            yield conn.query('DELETE FROM vivienda WHERE idvivienda = ?', [id]);
+            yield conn.query('DELETE FROM vivienda WHERE id_vivienda = ?', [id]);
             return res.json({
                 message: 'VIVIENDA DELETED'
             });
@@ -67,7 +67,7 @@ function updateVivienda(req, res) {
         const id = req.params.idVivienda;
         const updateVivienda = req.body;
         const conn = yield (0, database_1.connect)();
-        yield conn.query('UPDATE Vivienda set ? WHERE idVivienda = ?', [updateVivienda, id]);
+        yield conn.query('UPDATE Vivienda set ? WHERE id_vivienda = ?', [updateVivienda, id]);
         return res.json({
             message: 'VIVIENDA UPDATED'
         });

@@ -23,6 +23,7 @@ const persona_routes_1 = __importDefault(require("./routes/persona.routes"));
 const vivienda_routes_1 = __importDefault(require("./routes/vivienda.routes"));
 const posee_routes_1 = __importDefault(require("./routes/posee.routes"));
 const dependiente_routes_1 = __importDefault(require("./routes/dependiente.routes"));
+const departamento_routes_1 = __importDefault(require("./routes/departamento.routes"));
 const viviendaEnVenta_routes_1 = __importDefault(require("./routes/viviendaEnVenta.routes"));
 const gobierna_routes_1 = __importDefault(require("./routes/gobierna.routes"));
 const habita_routes_1 = __importDefault(require("./routes/habita.routes"));
@@ -45,6 +46,7 @@ class App {
     routes() {
         this.app.use(index_routes_1.default);
         this.app.use('/municipios', municipio_routes_1.default);
+        this.app.use('/departamentos', departamento_routes_1.default);
         this.app.use('/personas', persona_routes_1.default);
         this.app.use('/viviendas', vivienda_routes_1.default);
         this.app.use('/posee', posee_routes_1.default);
