@@ -18,14 +18,14 @@ export async function createHabita(req: Request, res: Response) {
 }
 
 export async function getHabita(req: Request, res:Response): Promise<Response>{
-    const id = req.params.persona_id_cedula
+    const id = req.params.idHabita
     const conn = await connect()
     const Habita = await conn.query('SELECT * FROM habita WHERE persona_id_cedula = ?', [id])
     return res.json(Habita[0])
 }
 
 export async function deleteHabita(req: Request, res: Response) {
-    const id = req.params.persona_id_cedula;
+    const id = req.params.idHabita;
     const conn = await connect();
 
     try {
@@ -43,7 +43,7 @@ export async function deleteHabita(req: Request, res: Response) {
 
 
 export async function updateHabita (req: Request, res:Response){
-    const id = req.params.persona_id_cedula
+    const id = req.params.idHabita
     const updateHabita: Habita = req.body;
     const conn = await connect()
     await conn.query('UPDATE habita set ? WHERE persona_id_cedula = ?', [updateHabita, id])

@@ -18,14 +18,14 @@ export async function createVivienda(req: Request, res: Response) {
 }
 
 export async function getVivienda(req: Request, res:Response): Promise<Response>{
-    const id = req.params.idVivienda
+    const id = req.params.id_vivienda
     const conn = await connect()
     const Vivienda = await conn.query('SELECT * FROM Vivienda WHERE id_vivienda = ?', [id])
     return res.json(Vivienda[0])
 }
 
 export async function deleteVivienda(req: Request, res:Response) {
-    const id = req.params.idVivienda;
+    const id = req.params.id_vivienda;
     const conn = await connect();
 
     try {
@@ -50,7 +50,7 @@ export async function deleteVivienda(req: Request, res:Response) {
 
 
 export async function updateVivienda (req: Request, res:Response){
-    const id = req.params.idVivienda
+    const id = req.params.id_vivienda
     const updateVivienda: Vivienda = req.body;
     const conn = await connect()
     await conn.query('UPDATE Vivienda set ? WHERE id_vivienda = ?', [updateVivienda, id])

@@ -18,14 +18,14 @@ export async function createPersona(req: Request, res: Response) {
 }
 
 export async function getPersona(req: Request, res: Response): Promise<Response> {
-    const id = req.params.idPersona;
+    const id = req.params.id_persona;
     const conn = await connect();
     const persona = await conn.query('SELECT * FROM persona WHERE id_cedula = ?', [id]);
     return res.json(persona[0]);
 }
 
 export async function deletePersona(req: Request, res: Response) {
-    const id = req.params.idPersona;
+    const id = req.params.id_persona;
     const conn = await connect();
     
     try {
@@ -53,7 +53,7 @@ export async function deletePersona(req: Request, res: Response) {
 
 
 export async function updatePersona(req: Request, res: Response) {
-    const id = req.params.idPersona;
+    const id = req.params.id_persona;
     const updatedPersona: Persona = req.body;
     const conn = await connect();
     await conn.query('UPDATE persona SET ? WHERE id_cedula = ?', [updatedPersona, id]);
@@ -64,7 +64,7 @@ export async function updatePersona(req: Request, res: Response) {
 
 
 export async function getPersonaDetails(req: Request, res: Response): Promise<Response> {
-    const id = req.params.idPersona;  // 
+    const id = req.params.id_persona;  // 
     const conn = await connect();
     const query = `
     SELECT 

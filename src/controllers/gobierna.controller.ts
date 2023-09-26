@@ -18,14 +18,14 @@ export async function createGobierna(req: Request, res: Response) {
 }
 
 export async function getGobierna(req: Request, res: Response): Promise<Response> {
-    const id = req.params.persona_id_cedula;
+    const id = req.params.Persona_idPersona;
     const conn = await connect();
     const gobierna = await conn.query('SELECT * FROM gobierna WHERE persona_id_cedula = ?', [id]);
     return res.json(gobierna[0]);
 }
 
 export async function deleteGobierna(req: Request, res: Response) {
-    const id = req.params.persona_id_cedula;
+    const id = req.params.Persona_idPersona;
     const conn = await connect();
     await conn.query('DELETE FROM gobierna WHERE persona_id_cedula = ?', [id]);
     return res.json({
@@ -34,7 +34,7 @@ export async function deleteGobierna(req: Request, res: Response) {
 }
 
 export async function updateGobierna(req: Request, res: Response) {
-    const id = req.params.persona_id_cedula;
+    const id = req.params.Persona_idPersona;
     const updatedGobierna: Gobierna = req.body;
     const conn = await connect();
     await conn.query('UPDATE gobierna SET ? WHERE persona_id_cedula = ?', [updatedGobierna, id]);
