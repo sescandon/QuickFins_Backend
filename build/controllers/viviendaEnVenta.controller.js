@@ -32,7 +32,7 @@ function createViviendaEnVenta(req, res) {
 exports.createViviendaEnVenta = createViviendaEnVenta;
 function getViviendaEnVenta(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.id_venta;
+        const id = req.params.idVenta;
         const conn = yield (0, database_1.connect)();
         const viviendaEnVenta = yield conn.query('SELECT * FROM vivienda_en_venta WHERE id_venta = ?', [id]);
         return res.json(viviendaEnVenta[0]);
@@ -41,7 +41,7 @@ function getViviendaEnVenta(req, res) {
 exports.getViviendaEnVenta = getViviendaEnVenta;
 function deleteViviendaEnVenta(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.id_venta;
+        const id = req.params.idVenta;
         const conn = yield (0, database_1.connect)();
         yield conn.query('DELETE FROM vivienda_en_venta WHERE id_venta = ?', [id]);
         return res.json({
@@ -52,7 +52,7 @@ function deleteViviendaEnVenta(req, res) {
 exports.deleteViviendaEnVenta = deleteViviendaEnVenta;
 function updateViviendaEnVenta(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.id_venta;
+        const id = req.params.idVenta;
         const updatedViviendaEnVenta = req.body;
         const conn = yield (0, database_1.connect)();
         yield conn.query('UPDATE vivienda_en_venta SET ? WHERE id_venta = ?', [updatedViviendaEnVenta, id]);

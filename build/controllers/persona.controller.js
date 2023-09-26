@@ -32,7 +32,7 @@ function createPersona(req, res) {
 exports.createPersona = createPersona;
 function getPersona(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.idPersona;
+        const id = req.params.id_persona;
         const conn = yield (0, database_1.connect)();
         const persona = yield conn.query('SELECT * FROM persona WHERE id_cedula = ?', [id]);
         return res.json(persona[0]);
@@ -41,7 +41,7 @@ function getPersona(req, res) {
 exports.getPersona = getPersona;
 function deletePersona(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.idPersona;
+        const id = req.params.id_persona;
         const conn = yield (0, database_1.connect)();
         try {
             // Primero eliminar registros en tablas Dependiente, Habita, Posee y ViviendaEnVenta que están relacionados con esta Persona
@@ -67,7 +67,7 @@ function deletePersona(req, res) {
 exports.deletePersona = deletePersona;
 function updatePersona(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.idPersona;
+        const id = req.params.id_persona;
         const updatedPersona = req.body;
         const conn = yield (0, database_1.connect)();
         yield conn.query('UPDATE persona SET ? WHERE id_cedula = ?', [updatedPersona, id]);
@@ -79,7 +79,7 @@ function updatePersona(req, res) {
 exports.updatePersona = updatePersona;
 function getPersonaDetails(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.idPersona; // 
+        const id = req.params.id_persona; // 
         const conn = yield (0, database_1.connect)();
         const query = `
     SELECT 

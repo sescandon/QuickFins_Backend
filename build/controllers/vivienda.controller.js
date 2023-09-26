@@ -32,7 +32,7 @@ function createVivienda(req, res) {
 exports.createVivienda = createVivienda;
 function getVivienda(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.idVivienda;
+        const id = req.params.id_vivienda;
         const conn = yield (0, database_1.connect)();
         const Vivienda = yield conn.query('SELECT * FROM Vivienda WHERE id_vivienda = ?', [id]);
         return res.json(Vivienda[0]);
@@ -41,7 +41,7 @@ function getVivienda(req, res) {
 exports.getVivienda = getVivienda;
 function deleteVivienda(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.idVivienda;
+        const id = req.params.id_vivienda;
         const conn = yield (0, database_1.connect)();
         try {
             // Primero eliminar registros en tablas Habita y Posee que están relacionados con esta Vivienda
@@ -64,7 +64,7 @@ function deleteVivienda(req, res) {
 exports.deleteVivienda = deleteVivienda;
 function updateVivienda(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.idVivienda;
+        const id = req.params.id_vivienda;
         const updateVivienda = req.body;
         const conn = yield (0, database_1.connect)();
         yield conn.query('UPDATE Vivienda set ? WHERE id_vivienda = ?', [updateVivienda, id]);

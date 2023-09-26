@@ -29,28 +29,28 @@ export async function deleteMunicipio(req: Request, res: Response) {
     const conn = await connect();
 
     try {
+        // Delete vivienda_en_venta entries related to the municipio's viviendas
+        await conn.query('DELETE FROM vivienda_en_venta WHERE vivienda_id_vivienda IN (SELECT id_vivienda FROM vivienda WHERE municipio_id_municipio = ?)', [id]);
         
-        await conn.query('DELETE FROM vivienda_en_venta WHERE id_vivienda IN (SELECT id_vivienda FROM persona WHERE id_municipio = ?)', [id]);
-        
-        
-        await conn.query('DELETE FROM persona WHERE id_municipio = ?', [id]);
+        // Delete viviendas in the given municipio
+        await conn.query('DELETE FROM vivienda WHERE municipio_id_municipio = ?', [id]);
 
-        
-        await conn.query('DELETE FROM vivienda WHERE id_municipio = ?', [id]);
-        
-        
+        // Finally, delete the municipio itself
         await conn.query('DELETE FROM municipio WHERE id_municipio = ?', [id]);
         
         return res.json({
             message:'municipio DELETED'
         });
     } catch (error) {
+        console.error(error);  // Log the error for debugging
         return res.status(500).json({
             message: 'Error Deleting municipio',
             error
         });
     }
 }
+
+
 
 
 export async function updateMunicipio (req: Request, res:Response){

@@ -32,7 +32,7 @@ function createGobierna(req, res) {
 exports.createGobierna = createGobierna;
 function getGobierna(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.persona_id_cedula;
+        const id = req.params.Persona_idPersona;
         const conn = yield (0, database_1.connect)();
         const gobierna = yield conn.query('SELECT * FROM gobierna WHERE persona_id_cedula = ?', [id]);
         return res.json(gobierna[0]);
@@ -41,7 +41,7 @@ function getGobierna(req, res) {
 exports.getGobierna = getGobierna;
 function deleteGobierna(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.persona_id_cedula;
+        const id = req.params.Persona_idPersona;
         const conn = yield (0, database_1.connect)();
         yield conn.query('DELETE FROM gobierna WHERE persona_id_cedula = ?', [id]);
         return res.json({
@@ -52,7 +52,7 @@ function deleteGobierna(req, res) {
 exports.deleteGobierna = deleteGobierna;
 function updateGobierna(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.persona_id_cedula;
+        const id = req.params.Persona_idPersona;
         const updatedGobierna = req.body;
         const conn = yield (0, database_1.connect)();
         yield conn.query('UPDATE gobierna SET ? WHERE persona_id_cedula = ?', [updatedGobierna, id]);

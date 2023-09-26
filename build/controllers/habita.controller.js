@@ -32,7 +32,7 @@ function createHabita(req, res) {
 exports.createHabita = createHabita;
 function getHabita(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.persona_id_cedula;
+        const id = req.params.idHabita;
         const conn = yield (0, database_1.connect)();
         const Habita = yield conn.query('SELECT * FROM habita WHERE persona_id_cedula = ?', [id]);
         return res.json(Habita[0]);
@@ -41,7 +41,7 @@ function getHabita(req, res) {
 exports.getHabita = getHabita;
 function deleteHabita(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.persona_id_cedula;
+        const id = req.params.idHabita;
         const conn = yield (0, database_1.connect)();
         try {
             yield conn.query('DELETE FROM habita WHERE persona_id_cedula = ?', [id]);
@@ -60,7 +60,7 @@ function deleteHabita(req, res) {
 exports.deleteHabita = deleteHabita;
 function updateHabita(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = req.params.persona_id_cedula;
+        const id = req.params.idHabita;
         const updateHabita = req.body;
         const conn = yield (0, database_1.connect)();
         yield conn.query('UPDATE habita set ? WHERE persona_id_cedula = ?', [updateHabita, id]);
