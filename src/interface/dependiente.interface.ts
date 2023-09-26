@@ -1,4 +1,4 @@
 export interface Dependiente{
-    idDependiente: number;
-    idPersona: number;
+    persona_id_cedula_cabeza: number; //FK
+    persona_id_cedula: number; //FK
 }

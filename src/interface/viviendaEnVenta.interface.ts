@@ -1,9 +1,10 @@
 // viviendaEnVenta.interface.ts
 
 export interface ViviendaEnVenta {
-    idVenta: number;
-    idVivienda: number;
+    id_venta: number; //PK autoincrement
+    vivienda_id_vivienda: number; //FK
+    persona_id_cedula: number; //FK
     precio: number;
-    estado: string; // Replace with enum if you have it defined
-    fechaPublicacion: Date;
+    estado: 'disponible' | 'vendida' | 'reservada';
+    fechaPublicacion?: Date;
 }

@@ -1,5 +1,4 @@
 export interface Habita {
-    idHabita: number;
-    idPersona: number;
-    idVivienda: number;
+    persona_id_cedula: number; //FK
+    vivienda_id_vivienda: number; //FK
 }

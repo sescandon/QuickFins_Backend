@@ -1,4 +1,4 @@
 export interface Gobierna {
-    Persona_idPersona: number;
-    Municipio_idMunicipio: number;
+    persona_id_cedula: number; //FK
+    departamento_id_departamento: number; //FK
 }

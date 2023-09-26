@@ -1,10 +1,7 @@
 export interface Persona {
-    id_persona: number;
-    nombre: string;
-    edad: number;
-    telefono: number;
-    sexo: string;
-    fechaDeNacimiento: Date;
-    id_municipio: number;
-  }
-  
+  id_cedula: number; //PK
+  nombre?: string; 
+  telefono?: number;
+  sexo?: 'Femenino' | 'Masculino';
+  fechaDeNacimiento?: string;
+}

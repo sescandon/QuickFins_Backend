@@ -18,18 +18,18 @@ export async function createDependiente(req: Request, res: Response) {
 }
 
 export async function getDependiente(req: Request, res:Response): Promise<Response>{
-    const id = req.params.dependiente_id_cedula
+    const id = req.params.persona_id_cedula
     const conn = await connect()
-    const Dependiente = await conn.query('SELECT * FROM dependiente WHERE dependiente_id_cedula = ?', [id])
+    const Dependiente = await conn.query('SELECT * FROM dependiente WHERE persona_id_cedula = ?', [id])
     return res.json(Dependiente[0])
 }
 
 export async function deleteDependiente(req: Request, res: Response) {
-    const id = req.params.dependiente_id_cedula;
+    const id = req.params.persona_id_cedula;
     const conn = await connect();
 
     try {
-        await conn.query('DELETE FROM dependiente WHERE dependiente_id_cedula = ?', [id]);
+        await conn.query('DELETE FROM dependiente WHERE persona_id_cedula_cabeza = ?', [id]);
         return res.json({
             message: 'Dependiente DELETED'
         });
@@ -46,7 +46,7 @@ export async function updateDependiente (req: Request, res:Response){
     const id = req.params.dependiente_id_cedula
     const updateDependiente: Dependiente = req.body;
     const conn = await connect()
-    await conn.query('UPDATE dependiente set ? WHERE dependiente_id_cedula = ?', [updateDependiente, id])
+    await conn.query('UPDATE dependiente set ? WHERE persona_id_cedula = ?', [updateDependiente, id])
     return res.json({
         message:'Dependiente UPDATED'
     })
