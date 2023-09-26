@@ -20,7 +20,7 @@ export async function createVivienda(req: Request, res: Response) {
 export async function getVivienda(req: Request, res:Response): Promise<Response>{
     const id = req.params.id_vivienda
     const conn = await connect()
-    const Vivienda = await conn.query('SELECT * FROM Vivienda WHERE id_vivienda = ?', [id])
+    const Vivienda = await conn.query('SELECT * FROM vivienda WHERE id_vivienda = ?', [id])
     return res.json(Vivienda[0])
 }
 
@@ -29,23 +29,24 @@ export async function deleteVivienda(req: Request, res:Response) {
     const conn = await connect();
 
     try {
-        // Primero eliminar registros en tablas Habita y Posee que están relacionados con esta Vivienda
-        await conn.query('DELETE FROM habita WHERE id_vivienda = ?', [id]);
-        await conn.query('DELETE FROM posee WHERE id_vivienda = ?', [id]);
-
-        // Ahora puedes eliminar de la tabla Vivienda
+        await conn.query('DELETE FROM vivienda_en_venta WHERE vivienda_id_vivienda = ?', [id]);
+        await conn.query('DELETE FROM habita WHERE vivienda_id_vivienda = ?', [id]);
+        await conn.query('DELETE FROM posee WHERE vivienda_id_vivienda = ?', [id]);
+        
         await conn.query('DELETE FROM vivienda WHERE id_vivienda = ?', [id]);
 
         return res.json({
             message:'VIVIENDA DELETED'
         });
     } catch (error) {
+        console.error(error); 
         return res.status(500).json({
             message: 'Error Deleting Vivienda',
             error
         });
     }
 }
+
 
 
 
