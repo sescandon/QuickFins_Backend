@@ -34,7 +34,7 @@ export async function deleteVivienda(req: Request, res:Response) {
         await conn.query('DELETE FROM posee WHERE id_vivienda = ?', [id]);
 
         // Ahora puedes eliminar de la tabla Vivienda
-        await conn.query('DELETE FROM vivienda WHERE idvivienda = ?', [id]);
+        await conn.query('DELETE FROM vivienda WHERE id_vivienda = ?', [id]);
 
         return res.json({
             message:'VIVIENDA DELETED'
@@ -53,7 +53,7 @@ export async function updateVivienda (req: Request, res:Response){
     const id = req.params.idVivienda
     const updateVivienda: Vivienda = req.body;
     const conn = await connect()
-    await conn.query('UPDATE Vivienda set ? WHERE idVivienda = ?', [updateVivienda, id])
+    await conn.query('UPDATE Vivienda set ? WHERE id_vivienda = ?', [updateVivienda, id])
     return res.json({
         message:'VIVIENDA UPDATED'
     })
