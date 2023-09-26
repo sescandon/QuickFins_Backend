@@ -67,7 +67,7 @@ function updateVivienda(req, res) {
         const id = req.params.id_vivienda;
         const updateVivienda = req.body;
         const conn = yield (0, database_1.connect)();
-        yield conn.query('UPDATE Vivienda set ? WHERE id_vivienda = ?', [updateVivienda, id]);
+        yield conn.query('UPDATE vivienda set ? WHERE id_vivienda = ?', [updateVivienda, id]);
         return res.json({
             message: 'VIVIENDA UPDATED'
         });

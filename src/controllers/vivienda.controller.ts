@@ -54,7 +54,7 @@ export async function updateVivienda (req: Request, res:Response){
     const id = req.params.id_vivienda
     const updateVivienda: Vivienda = req.body;
     const conn = await connect()
-    await conn.query('UPDATE Vivienda set ? WHERE id_vivienda = ?', [updateVivienda, id])
+    await conn.query('UPDATE vivienda set ? WHERE id_vivienda = ?', [updateVivienda, id])
     return res.json({
         message:'VIVIENDA UPDATED'
     })
