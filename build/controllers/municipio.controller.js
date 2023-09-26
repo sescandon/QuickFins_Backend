@@ -44,18 +44,15 @@ function deleteMunicipio(req, res) {
         const id = req.params.id_municipio;
         const conn = yield (0, database_1.connect)();
         try {
-            // Delete vivienda_en_venta entries related to the municipio's viviendas
             yield conn.query('DELETE FROM vivienda_en_venta WHERE vivienda_id_vivienda IN (SELECT id_vivienda FROM vivienda WHERE municipio_id_municipio = ?)', [id]);
-            // Delete viviendas in the given municipio
             yield conn.query('DELETE FROM vivienda WHERE municipio_id_municipio = ?', [id]);
-            // Finally, delete the municipio itself
             yield conn.query('DELETE FROM municipio WHERE id_municipio = ?', [id]);
             return res.json({
                 message: 'municipio DELETED'
             });
         }
         catch (error) {
-            console.error(error); // Log the error for debugging
+            console.error(error); //
             return res.status(500).json({
                 message: 'Error Deleting municipio',
                 error
