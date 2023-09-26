@@ -30,7 +30,7 @@ export async function deleteMunicipio(req: Request, res: Response) {
 
     try {
         
-        await conn.query('DELETE FROM vivienda_en_venta WHERE idVivienda IN (SELECT idVivienda FROM Persona WHERE id_municipio = ?)', [id]);
+        await conn.query('DELETE FROM vivienda_en_venta WHERE id_vivienda IN (SELECT id_vivienda FROM persona WHERE id_municipio = ?)', [id]);
         
         
         await conn.query('DELETE FROM persona WHERE id_municipio = ?', [id]);
