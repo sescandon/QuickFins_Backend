@@ -18,14 +18,14 @@ export async function createViviendaEnVenta(req: Request, res: Response) {
 }
 
 export async function getViviendaEnVenta(req: Request, res: Response): Promise<Response> {
-    const id = req.params.id_venta;
+    const id = req.params.idVenta;
     const conn = await connect();
     const viviendaEnVenta = await conn.query('SELECT * FROM vivienda_en_venta WHERE id_venta = ?', [id]);
     return res.json(viviendaEnVenta[0]);
 }
 
 export async function deleteViviendaEnVenta(req: Request, res: Response) {
-    const id = req.params.id_venta;
+    const id = req.params.idVenta;
     const conn = await connect();
     await conn.query('DELETE FROM vivienda_en_venta WHERE id_venta = ?', [id]);
     return res.json({
@@ -34,7 +34,7 @@ export async function deleteViviendaEnVenta(req: Request, res: Response) {
 }
 
 export async function updateViviendaEnVenta(req: Request, res: Response) {
-    const id = req.params.id_venta;
+    const id = req.params.idVenta;
     const updatedViviendaEnVenta: ViviendaEnVenta = req.body;
     const conn = await connect();
     await conn.query('UPDATE vivienda_en_venta SET ? WHERE id_venta = ?', [updatedViviendaEnVenta, id]);
