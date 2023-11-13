@@ -9,6 +9,7 @@ export async function getPosees(req: Request, res: Response): Promise<Response> 
 }
 
 export async function createPosee(req: Request, res: Response) {
+
     const newPost: Posee = req.body
     const conn = await connect()
     conn.query('INSERT INTO posee SET?',[newPost])

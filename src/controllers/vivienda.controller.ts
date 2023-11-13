@@ -52,7 +52,9 @@ export async function deleteVivienda(req: Request, res:Response) {
 
 export async function updateVivienda (req: Request, res:Response){
     const id = req.params.id_vivienda
+    
     const updateVivienda: Vivienda = req.body;
+    console.log(updateVivienda)
     const conn = await connect()
     await conn.query('UPDATE vivienda set ? WHERE id_vivienda = ?', [updateVivienda, id])
     return res.json({

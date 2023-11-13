@@ -84,7 +84,6 @@ function getPersonaDetails(req, res) {
         const query = `
     SELECT 
         p.id_cedula,
-        p.edad,
         p.sexo,
         p.telefono,
         p.fecha_de_nacimiento,
@@ -94,14 +93,14 @@ function getPersonaDetails(req, res) {
         m.id_municipio,
         m.nombre AS 'nombre_municipio',
         GROUP_CONCAT(DISTINCT CONCAT(vv.id_vivienda, ':', vv.direccion, ':', vv.area) ORDER BY vv.id_vivienda ASC) AS 'ID_Casas:Direcciones:Area',
-        GROUP_CONCAT(DISTINCT CONCAT(d.dependiente_id_cedula, ':', dp.nombre, ':', dp.telefono) ORDER BY d.dependiente_id_cedula ASC) AS 'ID_Dependientes:Nombres:Telefonos'
+        GROUP_CONCAT(DISTINCT CONCAT(d.persona_id_cedula_cabeza, ':', dp.nombre, ':', dp.telefono) ORDER BY d.persona_id_cedula_cabeza ASC) AS 'ID_Dependientes:Nombres:Telefonos'
     FROM persona p
     LEFT JOIN posee po ON p.id_cedula = po.persona_id_cedula
     LEFT JOIN vivienda v ON po.vivienda_id_vivienda = v.id_vivienda
     LEFT JOIN municipio m ON v.municipio_id_municipio = m.id_municipio
     LEFT JOIN vivienda vv ON po.vivienda_id_vivienda = vv.id_vivienda
     LEFT JOIN dependiente d ON p.id_cedula = d.persona_id_cedula
-    LEFT JOIN persona dp ON d.dependiente_id_cedula = dp.id_cedula
+    LEFT JOIN persona dp ON d.persona_id_cedula_cabeza = dp.id_cedula
     WHERE p.id_cedula = 3456789012  -- Reemplaza el signo de interrogación con el ID de la persona que estás buscando
     GROUP BY p.id_cedula, v.id_vivienda, m.id_municipio;
     `;
